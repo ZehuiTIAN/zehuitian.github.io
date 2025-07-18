@@ -5,38 +5,42 @@
   <title>Malayan Tapir</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
-  <!-- 字体：中文思源宋体 + 英文 Charter -->
+  <!-- 字体组合：
+  - 主标题：Playfair Display (优雅衬线) + Noto Serif SC
+  - 导航：Inter (现代无衬线) + Noto Sans SC
+  - 小标题：Crimson Text (古典衬线) + Noto Serif SC
+  - 正文：Inter (现代无衬线) + Noto Sans SC
+  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <header>
     <h1>Malayan Tapir</h1>
     <p class="bio">
-      她将去的地方是未知的，正如她一旦下了船，人们不知她来自何方。<br />
-      只有在两个都不属于她的世界之间的不毛之地，才有她的真理和她的故乡。
+      AIoT语音算法部署 ｜ 手风琴爱好者 ｜ 科技博主@织码女巫CodingWitch
     </p>
     <nav>
-      <a href="#about">关于</a>
-      <a href="#articles">文章</a>
-      <a href="#tech-notes">技术笔记</a>
-      <a href="#thoughts">碎碎念</a>
-      <a href="#scores">手风琴谱</a>
+      <a href="#about">About</a>
+      <a href="#articles">Articles</a>
+      <a href="#tech-notes">Tech Notes</a>
+      <a href="#thoughts">Thoughts</a>
+      <a href="#scores">Scores</a>
     </nav>
   </header>
 
   <main>
     <section id="about">
-      <h2>关于</h2>
-      <p>
-        AIoT语音算法部署工程师 | 手风琴爱好者 | 科技博主@织码女巫CodingWitch
+      <h2>About</h2>
+      <p class="about-text">
+        “她将去的地方是未知的。正如她一旦下了船，人们不知她来自何方。只有在两个都不属于她的世界之间的不毛之地，才有她的真理和她的故乡。”
       </p>
     </section>
 
     <section id="articles">
-      <h2>文章</h2>
+      <h2>Articles</h2>
       <ul class="post-list">
         <li>
           <time>2025-07-16</time>
@@ -46,7 +50,7 @@
     </section>
 
     <section id="tech-notes">
-      <h2>技术笔记</h2>
+      <h2>Tech Notes</h2>
       <ul class="post-list">
         <li>
           <time>2024-08-30</time>
@@ -56,14 +60,13 @@
     </section>
 
     <section id="thoughts">
-      <h2>碎碎念</h2>
+      <h2>Thoughts</h2>
       <ul class="post-list">
       </ul>
     </section>
 
     <section id="scores">
-      <h2>手风琴谱</h2>
-      <p class="section-desc">Sibelius简易扒谱。</p>
+      <h2>Accordion Scores</h2>
       <ul class="post-list">
         <li>
           <a href="scores/yellow_submarine.html">Yellow Submarine</a>

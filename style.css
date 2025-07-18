@@ -2,10 +2,16 @@
 :root {
     --bg: #faf8f4;
     --text: #222;
-    --accent: #c0392b;
+    --accent: #c9a885;
     --muted: #666;
     --line: #e5e5e5;
-    --serif: "Noto Serif SC", serif;
+    
+    /* 字体变量 - 按元素类型 */
+    --font-main-title: "Playfair Display", "Noto Serif SC", serif;
+    --font-nav: "Playfair Display","Noto Serif SC", sans-serif;
+    --font-section-title: "Crimson Text", "Noto Serif SC", serif;
+    --font-body: "Times New Roman", "Noto Serif SC", sans-serif;
+    --font-about: "Crimson Text", "Noto Serif SC", serif;
     --max-width: 680px;
   }
   
@@ -15,11 +21,12 @@
   
   body {
     margin: 0;
-    font-family: var(--serif);
+    font-family: var(--font-body);
     color: var(--text);
     background: var(--bg);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   header,
@@ -32,7 +39,7 @@
   
   header {
     text-align: center;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--accent);
     padding-bottom: 2rem;
   }
   
@@ -44,13 +51,15 @@
   }
   
   header h1 {
-    font-size: 1.75rem;
+    font-family: var(--font-main-title);
+    font-size: 2rem;
     margin: 0 0 0.5rem;
     font-weight: 700;
+    letter-spacing: -0.01em;
   }
   
   .bio {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: var(--muted);
     margin: 0 0 1.25rem;
   }
@@ -72,7 +81,16 @@
     margin: 2.5rem 0;
   }
   
+  h1 {
+    font-family: var(--font-main-title);
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
   h2 {
+    font-family: var(--font-section-title);
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0 0 1rem;
@@ -96,11 +114,32 @@
     color: var(--muted);
   }
   
+  /* 元素类型字体设置 */
+  nav {
+    font-family: var(--font-nav);
+  }
+  
+  body {
+    font-family: var(--font-body);
+  }
+  
+  p, .post-list li, .bio, .section-desc {
+    font-family: var(--font-body);
+  }
+  
+  .about-text {
+    font-family: var(--font-about);
+    font-size: 0.8rem;
+    color: var(--muted);
+    max-width: 600px;
+  }
+  
   .post-list a {
     color: var(--text);
     text-decoration: none;
     border-bottom: 1px solid var(--line);
     transition: color 0.2s;
+    font-family: var(--font-nav);
   }
   
   .post-list a:hover {
