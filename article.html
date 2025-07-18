@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>文章 - Malayan Tapir</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .meta {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: -0.5rem 0 2rem;
+    }
+    
+    .code-block {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .post-list.numbered {
+      list-style: decimal;
+      padding-left: 1.5rem;
+    }
+    
+    #content h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    #content h2 {
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+    }
+    
+    #content h3 {
+      font-size: 1.25rem;
+      margin: 1.5rem 0 0.75rem;
+    }
+    
+    #content p {
+      margin: 1rem 0;
+      line-height: 1.8;
+    }
+    
+    #content pre {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+    
+    #content code {
+      background: #f0f0f0;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+    
+    #content blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    
+    #content ul, #content ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    #content li {
+      margin: 0.5rem 0;
+    }
+    
+    .loading {
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="index.html" style="text-decoration: none; color: var(--text);">
+      <h1>← 返回主页</h1>
+    </a>
+  </header>
+
+  <main>
+    <article>
+      <div id="content" class="loading">
+        正在加载文章...
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <small>© 2025 Malayan Tapir</small>
+  </footer>
+
+  <script>
+    // 轻量级Markdown解析器
+    class MarkdownParser {
+      constructor() {
+        this.rules = [
+          { pattern: /^# (.*$)/gim, replacement: '<h1>$1</h1>' },
+          { pattern: /^## (.*$)/gim, replacement: '<h2>$1</h2>' },
+          { pattern: /^### (.*$)/gim, replacement: '<h3>$1</h3>' },
+          { pattern: /^#### (.*$)/gim, replacement: '<h4>$1</h4>' },
+          { pattern: /\*\*(.*?)\*\*/g, replacement: '<strong>$1</strong>' },
+          { pattern: /\*(.*?)\*/g, replacement: '<em>$1</em>' },
+          { pattern: /\[([^\]]+)\]\(([^)]+)\)/g, replacement: '<a href="$2" target="_blank">$1</a>' },
+          { pattern: /```([\s\S]*?)```/g, replacement: '<pre><code>$1</code></pre>' },
+          { pattern: /`([^`]+)`/g, replacement: '<code>$1</code>' },
+          { pattern: /^\u003e (.*$)/gim, replacement: '<blockquote>$1</blockquote>' }
+        ];
+      }
+
+      parse(markdown) {
+        let html = markdown;
+        
+        // 处理代码块
+        html = html.replace(/```([\s\S]*?)```/g, (match, code) => 
+          `<pre><code>${code.trim()}</code></pre>`);
+        
+        // 处理无序列表
+        html = html.replace(/(?:^- .*\n?)+/gm, (match) => {
+          const items = match.split('\n').filter(line => line.trim());
+          return '<ul class="post-list">' + items.map(item => 
+            '<li>' + item.replace(/^- /, '').trim() + '</li>'
+          ).join('') + '</ul>';
+        });
+        
+        // 处理有序列表
+        html = html.replace(/(?:^\d+\. .*\n?)+/gm, (match) => {
+          const items = match.split('\n').filter(line => line.trim());
+          return '<ol>' + items.map(item => 
+            '<li>' + item.replace(/^\d+\. /, '').trim() + '</li>'
+          ).join('') + '</ol>';
+        });
+        
+        // 处理引用
+        html = html.replace(/^\u003e (.*$)/gim, '<blockquote>$1</blockquote>');
+        
+        // 应用其他规则
+        this.rules.forEach(rule => {
+          if (![/(?:^- .*\n?)+/gm, /(?:^\d+\. .*\n?)+/gm, /```([\s\S]*?)```/g, /^\u003e (.*$)/gim].includes(rule.pattern)) {
+            html = html.replace(rule.pattern, rule.replacement);
+          }
+        });
+        
+        // 处理段落
+        html = html.replace(/\n\n/g, '</p><p>');
+        html = '<p>' + html + '</p>';
+        
+        // 清理多余的p标签
+        html = html.replace(/<p><(h[1-6])>/g, '<$1>');
+        html = html.replace(/<\/(h[1-6])><\/p>/g, '</$1>');
+        html = html.replace(/<p><(ul|ol|blockquote|pre)>/g, '<$1>');
+        html = html.replace(/<\/(ul|ol|blockquote|pre)><\/p>/g, '</$1>');
+        
+        return html;
+      }
+    }
+
+    // 加载并解析Markdown文件
+    async function loadMarkdownContent() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const type = urlParams.get('type');
+      const file = urlParams.get('file');
+      
+      if (!type || !file) {
+        document.getElementById('content').innerHTML = 
+          '<p style="text-align: center; color: var(--muted);">文章参数错误</p>';
+        return;
+      }
+
+      const mdPath = `content/${type}/${file}.md`;
+      
+      try {
+        const response = await fetch(mdPath);
+        if (response.ok) {
+          const markdown = await response.text();
+          const parser = new MarkdownParser();
+          const html = parser.parse(markdown);
+          
+          const contentDiv = document.getElementById('content');
+          contentDiv.innerHTML = html;
+          contentDiv.className = '';
+          
+          // 设置页面标题
+          const titleMatch = markdown.match(/^# (.*$)/m);
+          if (titleMatch) {
+            document.title = titleMatch[1] + ' - Malayan Tapir';
+          }
+        } else {
+          document.getElementById('content').innerHTML = 
+            `<p style="text-align: center; color: var(--muted);">
+              文章未找到：${type}/${file}
+            </p>`;
+        }
+      } catch (error) {
+        console.error('Error loading markdown:', error);
+        document.getElementById('content').innerHTML = 
+          `<p style="text-align: center; color: var(--muted);">
+            加载文章时出错：${error.message}
+          </p>`;
+      }
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', loadMarkdownContent);
+  </script>
+</body>
+</html>

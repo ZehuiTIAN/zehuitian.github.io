@@ -1,44 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malayan Tapir</title>
-    <link rel="stylesheet" href="styles.css"> <!-- 引入样式文件 -->
+  <meta charset="utf-8" />
+  <title>Malayan Tapir</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- 字体：中文思源宋体 + 英文 Charter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+  <header>
+    <h1>Malayan Tapir</h1>
+    <p class="bio">
+      她将去的地方是未知的，正如她一旦下了船，人们不知她来自何方。<br />
+      只有在两个都不属于她的世界之间的不毛之地，才有她的真理和她的故乡。
+    </p>
+    <nav>
+      <a href="#about">关于</a>
+      <a href="#articles">文章</a>
+      <a href="#tech-notes">技术笔记</a>
+      <a href="#thoughts">碎碎念</a>
+      <a href="#scores">手风琴谱</a>
+    </nav>
+  </header>
 
-    <!-- 页头 -->
-    <header>
-        <h1>Welcome to the desert of the real</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact Me</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- 首页 -->
-    <section id="home">
-        <h2>Home</h2>
-        <p>Hello world, I'm Malayan Tapir.</p>
-    </section>
-
-    <!-- 关于我 -->
+  <main>
     <section id="about">
-        <h2>About</h2>
-        <p>AIoT Software Engineer</p>
-        <p>Accordion Player</p>
+      <h2>关于</h2>
+      <p>
+        AIoT语音算法部署工程师 | 手风琴爱好者 | 科技博主@织码女巫CodingWitch
+      </p>
     </section>
 
-    <!-- 作品集 -->
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <p>Trotsky and the wild orchids</p>
-        <ul>
-            <li>Technique - <a href="project1-link">more</a></li>
-            <li>Rolling Eyes - <a href="project2-link">more</a></li>
-            <li>Accordion - <a href="project3
+    <section id="articles">
+      <h2>文章</h2>
+      <ul class="post-list">
+        <li>
+          <time>2025-07-16</time>
+          <a href="article.html?type=posts&file=is-code-purely-rational">代码是纯理性的吗？</a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="tech-notes">
+      <h2>技术笔记</h2>
+      <ul class="post-list">
+        <li>
+          <time>2024-08-30</time>
+          <a href="article.html?type=tech-notes&file=tflm-memory-management">TensorFlow Lite Micro内存管理</a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="thoughts">
+      <h2>碎碎念</h2>
+      <ul class="post-list">
+      </ul>
+    </section>
+
+    <section id="scores">
+      <h2>手风琴谱</h2>
+      <p class="section-desc">Sibelius简易扒谱。</p>
+      <ul class="post-list">
+        <li>
+          <a href="scores/yellow_submarine.html">Yellow Submarine</a>
+        </li>
+      </ul>
+    </section>
+
+
+  </main>
+
+  <footer>
+    <small>© 2025 Malayan Tapir</small>
+  </footer>
+
+  <!-- 小小交互：点击导航平滑滚动 -->
+  <script>
+    document.querySelectorAll('nav a').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector(e.target.hash).scrollIntoView({ behavior: 'smooth' });
+      })
+    );
+  </script>
+</body>
+</html>
