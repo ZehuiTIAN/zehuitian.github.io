@@ -1,0 +1,14 @@
+X:1
+T:Yellow Submarine
+C:Lennon / McCartney
+Z:arr. Malayan Tapir
+M:4/4
+L:1/8
+Q:1/4=96
+K:G
+%%MIDI program 21
+%% 替换为实际乐谱内容
+|: D2 | G4 G2 AB | B4 B2 cd | e4 e2 d2 | B6 D2 |
+G4 G2 AB | B4 B2 cd | e4 e2 e2 | A6 D2 |
+G4 B2 d2 | g4 g2 fe | d4 d2 B2 | G6 D2 |
+G4 G2 AB | B4 B2 cd | e4 d2 B2 | G6 :|

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音乐 · Malayan Tapir</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- abcjs player skin (loaded here so it can be overridden by components.css) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/abcjs@6.4.4/abcjs-audio.css">
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">Malayan Tapir</a>
+    <nav class="topbar-nav" aria-label="主导航">
+      <a href="index.html#writing" data-i18n="nav.writing">文字</a>
+      <a href="music.html" class="active" data-i18n="nav.music">音乐</a>
+      <a href="index.html#tools"   data-i18n="nav.tools">工具</a>
+      <button class="lang-toggle" onclick="I18n.setLang(I18n.getLang()==='zh'?'en':'zh')" aria-label="切换语言">
+        <span data-i18n="nav.toggle">EN</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="content-area" style="padding-top: var(--space-12);">
+
+  <section class="section">
+    <div class="section-header">
+      <h1 class="section-title">
+        音乐 <span class="en-sub">/ Music</span>
+      </h1>
+      <hr class="section-rule">
+    </div>
+    <ul class="score-list" id="music-list"></ul>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <span data-i18n="footer.copy">© 2025 Malayan Tapir</span>
+  &ensp;·&ensp;
+  <a href="https://github.com/ZehuiTIAN" target="_blank" rel="noopener" data-i18n="footer.github">GitHub</a>
+</footer>
+
+<!-- Scripts -->
+<script src="js/content-index.js"></script>
+<script src="js/i18n.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6.4.4/dist/abcjs-min.js"></script>
+<script>
+  // Soundfont CDN — hosts all 128 GM instruments per-note on demand
+  const SOUNDFONT_URL = 'https://paulrosen.github.io/midi-js-soundfonts/abcjs/';
+
+  function renderMusicPage() {
+    const el   = document.getElementById('music-list');
+    if (!el) return;
+    const lang  = typeof I18n !== 'undefined' ? I18n.getLang() : 'zh';
+    const items = CONTENT_INDEX.music;
+
+    if (!items || items.length === 0) {
+      el.innerHTML = `<li><p class="empty-state">${I18n.t('empty.soon')}</p></li>`;
+      return;
+    }
+
+    el.innerHTML = items.map((item, i) => {
+      const desc = typeof item.desc === 'object' ? (item.desc[lang] || item.desc.zh) : (item.desc || '');
+      const metaParts = [];
+      if (item.composer) metaParts.push(item.composer);
+      if (item.arranger && item.arranger !== item.composer) metaParts.push('arr. ' + item.arranger);
+      if (item.year) metaParts.push(item.year);
+
+      const pdfHtml = item.pdf
+        ? `<a class="score-link" href="${item.pdf}" target="_blank" rel="noopener">${I18n.t('music.pdf')}</a>`
+        : `<span class="score-link" style="opacity:0.35;cursor:default;border-bottom:none">${I18n.t('music.no-pdf')}</span>`;
+
+      const expandBtn = item.abc
+        ? `<button class="score-expand-btn" data-idx="${i}" aria-expanded="false">${I18n.t('music.score')} +</button>`
+        : '';
+
+      return `
+        <li class="score-item" id="score-item-${i}">
+          <div class="score-info">
+            <div class="score-title">${item.title}</div>
+            <div class="score-meta">${desc}${metaParts.length ? ' · ' + metaParts.join(' · ') : ''}</div>
+          </div>
+          <div class="score-actions">
+            ${expandBtn}
+            ${pdfHtml}
+          </div>
+        </li>
+        ${item.abc ? `
+        <li class="score-notation" id="score-notation-${i}">
+          <div class="score-body-wrap">
+            <div class="score-body-inner">
+              <div id="score-abc-${i}" class="abc-notation"></div>
+              <div id="score-player-${i}" class="abc-player"></div>
+            </div>
+          </div>
+        </li>` : ''}
+      `;
+    }).join('');
+
+    // Wire expand buttons
+    items.forEach((item, i) => {
+      if (!item.abc) return;
+      const btn        = el.querySelector(`.score-expand-btn[data-idx="${i}"]`);
+      const notationLi = document.getElementById(`score-notation-${i}`);
+      let loaded = false;
+
+      btn.addEventListener('click', async () => {
+        const isOpen = notationLi.classList.contains('open');
+
+        if (!isOpen && !loaded) {
+          // First open: fetch + render
+          notationLi.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          btn.textContent = I18n.t('music.score') + ' −';
+
+          try {
+            const res = await fetch(item.abc);
+            if (!res.ok) throw new Error('fetch failed');
+            const abcText = await res.text();
+
+            const visualObjs = ABCJS.renderAbc(`score-abc-${i}`, abcText, {
+              responsive: 'resize',
+              add_classes: true,
+              staffwidth: 680,
+            });
+
+            if (ABCJS.synth.supportsAudio()) {
+              const synthControl = new ABCJS.synth.SynthController();
+              synthControl.load(`#score-player-${i}`, null, {
+                displayPlay:     true,
+                displayProgress: true,
+                displayWarp:     false,
+                displayLoop:     false,
+              });
+              await synthControl.setTune(visualObjs[0], false, {
+                soundFontUrl: SOUNDFONT_URL,
+              });
+            } else {
+              document.getElementById(`score-player-${i}`).innerHTML =
+                `<p class="empty-state">${I18n.t('music.no-audio')}</p>`;
+            }
+            loaded = true;
+          } catch (e) {
+            document.getElementById(`score-abc-${i}`).innerHTML =
+              `<p class="empty-state">${I18n.t('music.load-error')}</p>`;
+          }
+        } else {
+          notationLi.classList.toggle('open', !isOpen);
+          btn.setAttribute('aria-expanded', String(!isOpen));
+          btn.textContent = I18n.t('music.score') + (isOpen ? ' +' : ' −');
+        }
+      });
+    });
+  }
+
+  function onLangChange() { renderMusicPage(); }
+  document.addEventListener('DOMContentLoaded', renderMusicPage);
+</script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malayan Tapir</title>
+  <title>工具 & 游戏 · Malayan Tapir</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
     <nav class="topbar-nav" aria-label="主导航">
       <a href="index.html#writing" data-i18n="nav.writing">文字</a>
       <a href="index.html#music"   data-i18n="nav.music">音乐</a>
-      <a href="index.html#tools"   data-i18n="nav.tools">工具</a>
+      <a href="games.html" class="active" data-i18n="nav.tools">工具</a>
       <button class="lang-toggle" onclick="I18n.setLang(I18n.getLang()==='zh'?'en':'zh')" aria-label="切换语言">
         <span data-i18n="nav.toggle">EN</span>
       </button>
@@ -33,23 +33,17 @@
   </div>
 </header>
 
-<!-- Article -->
-<main>
+<main class="content-area" style="max-width: var(--max-width-wide); padding-top: var(--space-12);">
 
-  <p class="state-message" id="article-loading" data-i18n="article.loading">正在加载…</p>
-
-  <article id="article-content" class="article-page" style="display:none;">
-
-    <a class="article-back" href="javascript:history.back()" data-i18n="article.back">← 返回</a>
-
-    <header>
-      <h1 class="article-title" id="article-title"></h1>
-      <div class="article-meta" id="article-meta"></div>
-    </header>
-
-    <div id="article-body" class="article-body prose"></div>
-
-  </article>
+  <section class="section">
+    <div class="section-header">
+      <h1 class="section-title">
+        工具 <span class="en-sub">/ Tools & Games</span>
+      </h1>
+      <hr class="section-rule">
+    </div>
+    <div class="game-grid" id="games-grid"></div>
+  </section>
 
 </main>
 
@@ -63,8 +57,35 @@
 <!-- Scripts -->
 <script src="js/content-index.js"></script>
 <script src="js/i18n.js"></script>
-<script src="js/markdown.js"></script>
-<script src="js/article-loader.js"></script>
+<script>
+  function renderGamesPage() {
+    const el   = document.getElementById('games-grid');
+    if (!el) return;
+    const lang  = typeof I18n !== 'undefined' ? I18n.getLang() : 'zh';
+    const items = CONTENT_INDEX.games;
+
+    if (!items || items.length === 0) {
+      el.innerHTML = `<p class="empty-state">${I18n.t('empty.soon')}</p>`;
+      return;
+    }
+
+    el.innerHTML = items.map(item => {
+      const title = typeof item.title === 'object' ? (item.title[lang] || item.title.zh) : item.title;
+      const desc  = typeof item.desc  === 'object' ? (item.desc[lang]  || item.desc.zh)  : (item.desc || '');
+      const techHtml = (item.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('');
+      return `
+        <a class="game-card" href="${item.url}">
+          <div class="game-card-title">${title}</div>
+          <div class="game-card-desc">${desc}</div>
+          ${techHtml ? `<div class="game-card-tech">${techHtml}</div>` : ''}
+        </a>
+      `;
+    }).join('');
+  }
+
+  function onLangChange() { renderGamesPage(); }
+  document.addEventListener('DOMContentLoaded', renderGamesPage);
+</script>
 
 </body>
 </html>

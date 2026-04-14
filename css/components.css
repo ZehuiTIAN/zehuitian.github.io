@@ -1,0 +1,347 @@
+/* ── Scramble Animation ── */
+
+.scramble-char {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.scramble-noise {
+  color: var(--color-text-faint);
+}
+
+.scramble-locked {
+  color: var(--color-text);
+}
+
+/* ── Tag Filter Bar ── */
+
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 var(--space-6);
+}
+
+.tag-pill {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: var(--color-tag-bg);
+  border: none;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+  border-radius: 2px;
+}
+
+.tag-pill:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.tag-pill.active {
+  background: var(--color-tag-active-bg);
+  color: var(--color-tag-active-fg);
+}
+
+/* ── Post List ── */
+
+.post-list {
+  list-style: none;
+}
+
+.post-item {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0 var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-rule);
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.post-item:first-child {
+  border-top: 1px solid var(--color-rule);
+}
+
+.post-date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  white-space: nowrap;
+  padding-top: 0.15em;
+}
+
+.post-info {}
+
+.post-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-text);
+  transition: opacity var(--t-fast);
+  line-height: 1.4;
+}
+
+.post-item:hover .post-title {
+  opacity: 0.55;
+}
+
+.post-desc {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.tag {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  letter-spacing: 0.03em;
+}
+
+.tag::before {
+  content: "#";
+}
+
+/* ── Score List (sheet music) ── */
+
+.score-list {
+  list-style: none;
+}
+
+.score-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-4);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.score-item:first-child {
+  border-top: 1px solid var(--color-rule);
+}
+
+.score-info {}
+
+.score-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+.score-meta {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.score-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-rule);
+  transition: opacity var(--t-fast);
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+
+.score-link:hover {
+  opacity: 0.55;
+}
+
+/* ── Game Cards ── */
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--color-rule);
+  padding-top: var(--space-4);
+}
+
+.game-card {
+  display: block;
+  border: 1px solid var(--color-rule);
+  padding: var(--space-6);
+  transition: border-color var(--t-fast);
+  color: inherit;
+}
+
+.game-card:hover {
+  border-color: var(--color-text);
+  color: inherit;
+}
+
+.game-card-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+}
+
+.game-card-desc {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.game-card-tech {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.tech-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  border: 1px solid var(--color-rule);
+  padding: 1px 5px;
+}
+
+/* ── Journal Accordion ── */
+
+.journal-list {
+  border-top: 1px solid var(--color-rule);
+}
+
+.journal-item {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.journal-header {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr auto auto;
+  gap: 0 var(--space-4);
+  align-items: baseline;
+  width: 100%;
+  padding: var(--space-4) 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.journal-header:hover .journal-title {
+  opacity: 0.55;
+}
+
+.journal-date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  white-space: nowrap;
+  padding-top: 0.15em;
+}
+
+.journal-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-text);
+  transition: opacity var(--t-fast);
+  line-height: 1.4;
+}
+
+.journal-mood {
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.journal-arrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  color: var(--color-text-faint);
+  transition: transform 0.2s ease, color var(--t-fast);
+  line-height: 1;
+  align-self: center;
+}
+
+.journal-item.open .journal-arrow {
+  transform: rotate(45deg);
+  color: var(--color-text);
+}
+
+/* Smooth expand/collapse via grid-template-rows */
+.journal-body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.journal-item.open .journal-body-wrap {
+  grid-template-rows: 1fr;
+}
+
+.journal-body-inner {
+  overflow: hidden;
+}
+
+.journal-body {
+  padding: 0 0 var(--space-8);
+  padding-left: calc(6.5rem + var(--space-4)); /* align with title column */
+}
+
+@media (max-width: 640px) {
+  .journal-header {
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .journal-date {
+    grid-column: 1 / -1;
+    font-size: var(--text-xs);
+  }
+
+  .journal-body {
+    padding-left: 0;
+  }
+}
+
+/* ── Empty State ── */
+
+.empty-state {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  font-style: italic;
+  padding: var(--space-4) 0;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 640px) {
+  .post-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  .post-date {
+    font-size: var(--text-xs);
+  }
+
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}
