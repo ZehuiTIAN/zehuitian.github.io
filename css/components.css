@@ -1,3 +1,18 @@
+/* ── ASCII Particle (cursor trail + click burst) ── */
+
+.ascii-particle {
+  position: fixed;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text);
+  pointer-events: none;
+  z-index: 9999;
+  user-select: none;
+  line-height: 1;
+  transform: translate(0, 0);
+}
+
+
 /* ── Scramble Animation ── */
 
 .scramble-char {
