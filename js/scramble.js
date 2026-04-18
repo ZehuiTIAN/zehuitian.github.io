@@ -68,8 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Small delay so fonts are loaded and layout is stable
   setTimeout(() => scrambler.setText(target, { stagger: 55 }), 120);
 
-  // Re-play on hover (faster)
-  el.addEventListener('mouseenter', () => {
+  // Re-play on click
+  el.addEventListener('click', () => {
     scrambler.setText(target, { stagger: 28 });
   });
 });
