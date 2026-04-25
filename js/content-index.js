@@ -10,6 +10,16 @@ const CONTENT_INDEX = {
   // ── Writing (essays, tech notes, tutorials, etc.) ─────────────
   writing: [
     {
+      slug:  'why-we-do-this',
+      title: { zh: '我们为什么做这件事', en: 'Why We Do This' },
+      date:  '2026-04-26',
+      desc:  { zh: 'AI Witch：一门关于拿回主控权的课', en: 'AI Witch: a course about reclaiming digital sovereignty' },
+      lang:  'zh',
+      dir:   'essays',
+      type:  'essay',
+      tags:  ['随笔', 'AI Witch', '技术与人文'],
+    },
+    {
       slug:  'is-code-purely-rational',
       title: { zh: '代码是纯理性的吗？', en: 'Is Code Purely Rational?' },
       date:  '2025-07-16',
